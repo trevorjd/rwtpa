@@ -5,7 +5,6 @@ import net.risingworld.api.database.Database;
 import net.risingworld.api.objects.Player;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -57,7 +56,6 @@ class rwtpaDatabase
         Connection con = db.getConnection();
 
         // delete existing BlockList data
-            System.out.println("Debug: clearing blocklist for " + player.getUID());
         clearBlockList(player);
 
         // write new BlockList data
@@ -66,8 +64,6 @@ class rwtpaDatabase
         while (iter.hasNext())
         {
             Long element = (long) iter.next();
-                System.out.println("Debug: add to db" + player.getUID() + " " + element);
-                System.out.println("INSERT INTO Players ('blocker','blocked') VALUES ('" + player.getUID() + "','" + element + "');");
             db.executeUpdate("INSERT INTO Players ('blocker','blocked') VALUES ('" + player.getUID() + "','" + element + "');");
         }
     }
@@ -76,10 +72,7 @@ class rwtpaDatabase
     {
         // clear BlockList data
         Connection con = db.getConnection();
-        System.out.println( "DELETE FROM Players WHERE blocker = '" + player.getUID() + "';");
         db.executeUpdate("DELETE FROM Players WHERE blocker = '" + player.getUID() + "';");
     }
-
-
 
 }

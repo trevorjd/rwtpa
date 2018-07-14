@@ -12,15 +12,18 @@ import net.risingworld.api.objects.Player;
 import net.risingworld.api.utils.KeyInput;
 import net.risingworld.api.utils.Vector3f;
 
+import java.io.*;
+import java.util.Properties;
+
 import static com.trevorjd.rwplugin.rwtpaGUI.setMainPanelAttributes;
 import static com.trevorjd.rwplugin.rwtpaGUI.showHideMainGui;
+import static jdk.nashorn.internal.runtime.JSType.toInteger;
 
 /*
     Author: trevorjd https://github.com/trevorjd
     Thanks: Minotorious for assistance with GUI
 
     TODO add permissions support
-    TODO add config file
     TODO add localization
     TODO immediate action on keypress
  */
@@ -29,15 +32,16 @@ public class rwtpa extends Plugin implements Listener
 {
     static Plugin plugin;
     public Server myServer = getServer();
+    public static Properties properties = new Properties();
 
-    // CONFIG CONSTANTS
-    public static final String COMMAND_PREFIX = "/tpa";
-    public static final String COMMAND_SEND_PREFIX = "send";
-    public static final String COMMAND_BLOCK_PREFIX = "block";
-    public static final String COMMAND_UNBLOCK_PREFIX = "unblock";
-    public static final String COMMAND_CLEAR_PREFIX = "clear";
+    // GLOBAL CONFIGS
+    public static String COMMAND_PREFIX;
+    public static String COMMAND_SEND;
+    public static String COMMAND_BLOCK;
+    public static String COMMAND_UNBLOCK;
+    public static String COMMAND_CLEAR;
+    public static String TELEPORT_TIMER_DURATION;
 
-    public static final float TELEPORT_TIMER_DURATION = 5;
 
     // LOCALIZABLE_MESSAGES
     public static final String MSG_PLAYER_USAGE_1 = "Usage";
@@ -57,9 +61,10 @@ public class rwtpa extends Plugin implements Listener
     public static final String MSG_PLAYER_CLEAR_DONE = "TPA BlockList cleared.";
     public static final String MSG_PLAYER_BLOCKLIST_ADDED = "Player added to blocklist";
     public static final String MSG_PLAYER_BLOCKLIST_REMOVED = "Player removed from blocklist";
+    public static final String MSG_PLAYER_ALREADY_BLOCKLISTED = "is already on your Block List";
 
     public static final String GUI_LABEL_TITLE = "Teleport Request";
-    public static final String DEFAULT_REQUESTOR_TEXT = "No one here but us chickens.";
+    public static final String DEFAULT_REQUESTOR_TEXT = "none";
     public static final String FILE_CONFIRMATION_GRAPHIC = "/resources/images/confirmation.png";
 
     // Listeners
@@ -75,6 +80,8 @@ public class rwtpa extends Plugin implements Listener
         registerEventListener(this);
         registerEventListener(rwtpaListenerCommandL);
         registerEventListener(rwtpaListenerKeyL);
+
+        initPlugin();
     }
 
     @Override
@@ -92,6 +99,72 @@ public class rwtpa extends Plugin implements Listener
         player.setAttribute("BlockList", rwtpaDatabase.getBlockList(player.getUID()));
         // Prepare GUI
         setMainPanelAttributes(player);
+    }
+
+    void initPlugin()
+    {
+        // test for existence of setting.properties file
+        File propertiesFile = new File(getPath() + "/settings.properties");
+        if (!propertiesFile.exists())
+        {
+            writeDefaultPropertiesFile();
+        }
+
+        InputStream input = null;
+        FileInputStream in;
+        try {
+            input = new FileInputStream(propertiesFile);
+            properties.load(input);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } finally
+        {
+            if (input != null)
+            {
+                try
+                {
+                    input.close();
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            assignProperties(properties);
+        }
+    }
+
+    private void assignProperties(Properties properties)
+    {
+        COMMAND_PREFIX = properties.getProperty("COMMAND_PREFIX");
+        COMMAND_SEND = properties.getProperty("COMMAND_SEND");
+        COMMAND_BLOCK = properties.getProperty("COMMAND_BLOCK");
+        COMMAND_UNBLOCK = properties.getProperty("COMMAND_UNBLOCK");
+        COMMAND_CLEAR = properties.getProperty("COMMAND_CLEAR");
+        TELEPORT_TIMER_DURATION = properties.getProperty("TELEPORT_TIMER_DURATION");
+    }
+
+    private void writeDefaultPropertiesFile()
+    {
+        try {
+            Properties defaultProperties = defaultProperties();
+            File file = new File(getPath() + "/settings.properties");
+            FileOutputStream out = new FileOutputStream(file);
+            defaultProperties.store(out,"rwtpa properties");
+            out.close();
+        } catch (IOException e) { e.printStackTrace(); }
+    }
+
+    private Properties defaultProperties()
+    {
+        Properties properties = new Properties();
+        properties.setProperty("COMMAND_PREFIX","/tpa");
+        properties.setProperty("COMMAND_SEND","send");
+        properties.setProperty("COMMAND_BLOCK","block");
+        properties.setProperty("COMMAND_UNBLOCK","unblock");
+        properties.setProperty("COMMAND_CLEAR","clear");
+        properties.setProperty("TELEPORT_TIMER_DURATION","5");
+        return properties;
     }
 
     @EventMethod
@@ -119,7 +192,7 @@ public class rwtpa extends Plugin implements Listener
         showHideMainGui(receiver, true); // trigger Minotorious' gui
 
         //define 5 second timer, rwtpaListernerKey will listen for a response
-        Timer timer = new Timer (TELEPORT_TIMER_DURATION, 0f, 1, ()->
+        Timer timer = new Timer (toInteger(TELEPORT_TIMER_DURATION), 0f, 1, ()->
             {
                 if (receiver.hasAttribute("tpa_permission")) // this should be set by rwtpaListenerKey
                 {
@@ -162,7 +235,7 @@ public class rwtpa extends Plugin implements Listener
         destination.setY(destination.getY()+1); // Small difference on Y axis to avoid possible problems with two players occupying the same position.
         sourcePlayer.setPosition(destination);
         destinationPlayer.sendTextMessage(MSG_PLAYER_WORD_PLAYER + " " + sourcePlayer.getName() + " " + MSG_PLAYER_SUCCESS_DESTINATION);
-        sourcePlayer.sendTextMessage(MSG_PLAYER_SUCCESS_SOURCE + " " + destinationPlayer.getName());
+        sourcePlayer.sendTextMessage(MSG_PLAYER_SUCCESS_SOURCE);
     }
 
     public Player getPlayerbyName(String playerName)

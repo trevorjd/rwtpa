@@ -26,7 +26,6 @@ public class rwtpaGUI
     //This method should be called in the PlayerSpawnEvent
     public static void setMainPanelAttributes(Player player)
     {
-            System.out.println("Debug: main GUI panel setup");
         GuiPanel personalMainPanel = createMainPanel();
         GuiLabel personalHeaderLabel = createHeaderLabel();
         GuiLabel personalRequestorLabel = createRequestorLabel();
@@ -36,22 +35,13 @@ public class rwtpaGUI
         personalMainPanel.addChild(personalRequestorLabel);
         personalMainPanel.addChild(personalConfirmationGraphic);
         player.setAttribute("MainPanel", personalMainPanel);
-            System.out.println("Debug: setattribute mainpanel");
         player.setAttribute("HeaderLabel", personalHeaderLabel);
-            System.out.println("Debug: setattribute headerlabel");
         player.setAttribute("RequestorLabel", personalRequestorLabel);
-            System.out.println("Debug: setattribute requestorlabel");
         player.setAttribute("ConfirmationGraphic", personalConfirmationGraphic);
-            System.out.println("Debug: setattribute confirmgraphic");
         player.addGuiElement((GuiPanel) player.getAttribute("MainPanel"));
-            System.out.println("Debug: added element mainpanel");
         player.addGuiElement((GuiLabel) player.getAttribute("HeaderLabel"));
-            System.out.println("Debug: added element headerlabel");
         player.addGuiElement((GuiLabel) player.getAttribute("RequestorLabel"));
-            System.out.println("Debug: added element requestorlabel");
         player.addGuiElement((GuiImage) player.getAttribute("ConfirmationGraphic"));
-            System.out.println("Debug: added element confirmationgrpahic");
-
     }
 
     public static GuiPanel createMainPanel(){
