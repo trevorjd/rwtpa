@@ -1,0 +1,7 @@
+name: rwtpa
+main: com.trevorjd.rwplugin.rwtpa
+version: 1.0.0
+author: "Trevor J Dixon"
+description: "Player to Player Teleportation"
+license: MIT
+website: "http://www.trevorjd.com/"

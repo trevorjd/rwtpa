@@ -1,0 +1,23 @@
+# Localization message definitions
+# en_US
+
+# preamble for usage instructions
+# e.g. Usage: /tpa <player name>
+# Do not include punctuation or spacing.
+MSG_PLAYER_USAGE_1=Usage
+MSG_PLAYER_USAGE_2=player name
+
+# The word 'Player'. Used in "Player <playername> has been teleported to you."
+MSG_PLAYER=Player
+MSG_PLAYER_NOT_FOUND=Player not found.
+MSG_PLAYER_SUCCESS_DESTINATION=has been teleported to you
+MSG_PLAYER_SUCCESS_SOURCE=You have been teleported to
+MSG_PLAYER_REQUEST=Teleport request received from
+MSG_PLAYER_SOURCE_REQUEST=TPA request sent to
+MSG_PLAYER_PERMISSION_UNAVAILABLE=Unable to get permission for teleport
+MSG_PLAYER_PLEASE_WAIT=You have an outstanding teleport request. Please wait.
+
+GUI_LABEL_TITLE=Teleport Request
+DEFAULT_REQUESTOR_TEXT=none
+
+MSG_DEBUG_USAGE=Requested rwtpa usage.
