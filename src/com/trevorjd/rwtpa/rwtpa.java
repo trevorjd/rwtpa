@@ -1,4 +1,4 @@
-package com.trevorjd.rwplugin;
+package com.trevorjd.rwtpa;
 
 import net.risingworld.api.Plugin;
 import net.risingworld.api.Server;
@@ -13,10 +13,11 @@ import net.risingworld.api.utils.KeyInput;
 import net.risingworld.api.utils.Vector3f;
 
 import java.io.*;
+import java.util.Locale;
 import java.util.Properties;
 
-import static com.trevorjd.rwplugin.rwtpaGUI.setMainPanelAttributes;
-import static com.trevorjd.rwplugin.rwtpaGUI.showHideMainGui;
+import static com.trevorjd.rwtpa.rwtpaGUI.setMainPanelAttributes;
+import static com.trevorjd.rwtpa.rwtpaGUI.showHideMainGui;
 import static jdk.nashorn.internal.runtime.JSType.toInteger;
 
 /*
@@ -31,8 +32,8 @@ import static jdk.nashorn.internal.runtime.JSType.toInteger;
 public class rwtpa extends Plugin implements Listener
 {
     static Plugin plugin;
-    public Server myServer = getServer();
-    public static Properties properties = new Properties();
+    private Server myServer = getServer();
+    private static Properties properties = new Properties();
 
     // GLOBAL CONFIGS
     public static String COMMAND_PREFIX;
@@ -41,9 +42,10 @@ public class rwtpa extends Plugin implements Listener
     public static String COMMAND_UNBLOCK;
     public static String COMMAND_CLEAR;
     public static String TELEPORT_TIMER_DURATION;
+    public static Locale locale;
+    public static String defaultLocale = "en";
 
-
-    // LOCALIZABLE_MESSAGES
+    // DEFAULT MESSAGES
     public static final String MSG_PLAYER_USAGE_1 = "Usage";
     public static final String MSG_PLAYER_USAGE_2 = "player name";
     public static final String MSG_PLAYER_NOT_FOUND = "Player not found.";

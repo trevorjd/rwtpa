@@ -1,4 +1,4 @@
-package com.trevorjd.rwplugin;
+package com.trevorjd.rwtpa;
 
 import net.risingworld.api.events.EventMethod;
 import net.risingworld.api.events.Listener;
@@ -6,7 +6,7 @@ import net.risingworld.api.events.player.PlayerCommandEvent;
 import net.risingworld.api.objects.Player;
 
 import java.util.ArrayList;
-import static com.trevorjd.rwplugin.rwtpa.*;
+import static com.trevorjd.rwtpa.rwtpa.*;
 
 public class rwtpaListenerCommand implements Listener
 {

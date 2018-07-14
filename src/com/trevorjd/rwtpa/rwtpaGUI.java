@@ -1,4 +1,4 @@
-package com.trevorjd.rwplugin;
+package com.trevorjd.rwtpa;
 
 import net.risingworld.api.gui.GuiImage;
 import net.risingworld.api.gui.GuiLabel;
@@ -7,7 +7,7 @@ import net.risingworld.api.gui.PivotPosition;
 import net.risingworld.api.objects.Player;
 import net.risingworld.api.utils.ImageInformation;
 
-import static com.trevorjd.rwplugin.rwtpa.*;
+import static com.trevorjd.rwtpa.rwtpa.*;
 
 public class rwtpaGUI
 {

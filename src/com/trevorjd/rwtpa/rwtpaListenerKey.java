@@ -1,4 +1,4 @@
-package com.trevorjd.rwplugin;
+package com.trevorjd.rwtpa;
 
 import net.risingworld.api.events.EventMethod;
 import net.risingworld.api.events.Listener;

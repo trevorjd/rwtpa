@@ -1,4 +1,4 @@
-package com.trevorjd.rwplugin;
+package com.trevorjd.rwtpa;
 
 import net.risingworld.api.Plugin;
 import net.risingworld.api.database.Database;
